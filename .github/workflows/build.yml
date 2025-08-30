@@ -1,5 +1,5 @@
-name: Build and Deploy  
- 
+name: Build and Deploy
+
 on:
   push:
     branches:
@@ -25,20 +25,23 @@ jobs:
         run: |
           cd data-pipelines/dags/kafka-app
           docker build -f Dockerfile -t devops-data-platform-kafka:v1.0.0 .
+          docker tag devops-data-platform-kafka:v1.0.0 ${{ secrets.DOCKER_USERNAME }}/devops-data-platform-kafka:v1.0.0
 
       - name: Build Docker images for rds-app
         run: |
           cd data-pipelines/dags/rds-app
           docker build -f Dockerfile -t devops-data-platform-rds:v1.0.0 .
+          docker tag devops-data-platform-rds:v1.0.0 ${{ secrets.DOCKER_USERNAME }}/devops-data-platform-rds:v1.0.0
 
       - name: Build Docker images for spark-app
         run: |
           cd data-pipelines/dags/spark-app
           docker build -f Dockerfile -t devops-data-platform-spark:v1.0.0 .
+          docker tag devops-data-platform-spark:v1.0.0 ${{ secrets.DOCKER_USERNAME }}/devops-data-platform-spark:v1.0.0
 
       - name: Push Docker images to Docker Hub
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker push devops-data-platform-kafka:v1.0.0
-          docker push devops-data-platform-rds:v1.0.0
-          docker push devops-data-platform-spark:v1.0.0
+          docker push ${{ secrets.DOCKER_USERNAME }}/devops-data-platform-kafka:v1.0.0
+          docker push ${{ secrets.DOCKER_USERNAME }}/devops-data-platform-rds:v1.0.0
+          docker push ${{ secrets.DOCKER_USERNAME }}/devops-data-platform-spark:v1.0.0
