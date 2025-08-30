@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - 'data-pipelines/dags/kafka-app/**'
-      - 'data-pipeline/dags/rds-app/**' 
+      - 'data-pipeline/dags/rds-app/**'
       - 'data-pipeline/dags/spark-app/**'
       - '.github/workflows/**'
 
@@ -21,11 +21,20 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Build Docker images
+      - name: Build Docker images for kafka-app
         run: |
-          docker build -f data-pipelines/dags/kafka-app/Dockerfile -t devops-data-platform-kafka:v1.0.0 .
-          docker build -f data-pipelines/dags/rds-app/Dockerfile -t devops-data-platform-rds:v1.0.0 .
-          docker build -f data-pipelines/dags/spark-app/Dockerfile -t devops-data-platform-spark:v1.0.0 .
+          cd data-pipelines/dags/kafka-app
+          docker build -f Dockerfile -t devops-data-platform-kafka:v1.0.0 .
+
+      - name: Build Docker images for rds-app
+        run: |
+          cd data-pipelines/dags/rds-app
+          docker build -f Dockerfile -t devops-data-platform-rds:v1.0.0 .
+
+      - name: Build Docker images for spark-app
+        run: |
+          cd data-pipelines/dags/spark-app
+          docker build -f Dockerfile -t devops-data-platform-spark:v1.0.0 .
 
       - name: Push Docker images to Docker Hub
         run: |
