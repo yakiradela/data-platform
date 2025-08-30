@@ -1,12 +1,9 @@
 FROM python:3.9-slim
 
-# העתקת קובץ requirements לקונטיינר
-COPY requirements_rds_to_redshift.txt .
+COPY requirements.txt .
 
-# התקנת התלויות
-RUN pip install --no-cache-dir -r requirements_rds_to_redshift.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# התקנת תלויות נוספות (אם יש)
 RUN pip install apache-airflow==2.4.0 psycopg2 boto3
 
 EXPOSE 8084
