@@ -1,28 +1,29 @@
-resource "aws_db_subnet_group" "this" {
-  name       = "dev-rds-subnets"
-  subnet_ids = module.vpc.private_subnets 
+
+resource "aws_redshift_subnet_group" "default" {
+  name        = "dev-redshift-subnet-group"
+  description = "Subnet group for Redshift cluster"
+  subnet_ids  = module.vpc.private_subnets
 
   tags = {
-    Name = "dev-rds-subnet-group"
+    Environment = "dev"
+    Name = "dev-redshift-subnet-group"
   }
 }
 
-resource "aws_db_instance" "this" {
-  identifier              = "dev-rds"
-  engine                  = "postgres"
-  engine_version          = "15"
-  instance_class          = "db.t3.medium"
-  allocated_storage       = 50
-  db_subnet_group_name    = aws_db_subnet_group.this.name
-  vpc_security_group_ids  = ["sg-0123456789abcdef0"] # שנה לערך אמיתי
-  username                = "etl"
-  password                = "chance-me"
-  skip_final_snapshot     = true
-  publicly_accessible     = false
-  deletion_protection     = false
-  backup_retention_period = 7
+resource "aws_redshift_cluster" "main" {
+  cluster_identifier         = "dev-redshift"
+  node_type                  = "dc2.large"
+  master_username            = "adminuser"
+  master_password            = "yakiradela@A"
+  database_name              = "dataplatform"
+  cluster_type               = "single-node"
+  port                       = 5439
+  publicly_accessible        = false
+  skip_final_snapshot        = true
+  cluster_subnet_group_name  = aws_redshift_subnet_group.default.name
 
   tags = {
-    Name = "dev-rds"
+    Environment = "dev"
+    Name = "dev-redshift"
   }
 }
