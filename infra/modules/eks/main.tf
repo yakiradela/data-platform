@@ -1,15 +1,28 @@
-module "eks_cluster" {
-    source                  = "terraform-aws-modules/eks/aws"
-    cluster_name            = "${var.env}-eks"
-    cluster_version         = "1.29"
-    vpc_id                  = var.vpc_id
-    subnet_ids              = var.private_subnets 
+module "eks" {
+  source  = "terraform-aws-modules/eks/aws"
+  version = "~> 20.0"
 
-    manage_node_groups = {
-        default = {
-            instance_types  = ["m5.large"]
-            min_size        = 2
-            max_size        = 5
-        }
+  cluster_name    = "dev-eks"
+  cluster_version = "1.29"
+
+  vpc_id     = module.vpc.vpc_id
+  subnet_ids = module.vpc.private_subnets
+
+  eks_managed_node_group_defaults = {
+    instance_types = ["m5.large"]
+  }
+
+  eks_managed_node_groups = {
+    default = {
+      min_size     = 2
+      max_size     = 3
+      desired_size = 2
     }
+  }
+
+  tags = {
+    Environment = "dev"
+    Terraform   = "true"
+  }
 }
+
