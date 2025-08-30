@@ -1,7 +1,7 @@
 resource "aws_db_subnet_group" "this" {
   name       = "dev-rds-subnets"
   subnet_ids = module.vpc.private_subnets 
-}
+
   tags = {
     Name = "dev-rds-subnet-group"
   }
