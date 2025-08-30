@@ -1,12 +1,9 @@
 FROM python:3.9-slim
 
-# העתקת קובץ requirements לקונטיינר
 COPY requirements_spark_batch_job.txt .
 
-# התקנת התלויות
 RUN pip install --no-cache-dir -r requirements_spark_batch_job.txt
 
-# התקנת תלויות נוספות (אם יש)
 RUN pip install apache-airflow==2.4.0 kubernetes pyspark
 
 EXPOSE 8080
