@@ -1,0 +1,33 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'data-pipelines/dags/**'
+      - '.github/workflows/**'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker images
+        run: |
+          docker build -f data-pipelines/dags/kafka-app/Dockerfile -t devops-data-platform-kafka:v1.0.0 .
+          docker build -f data-pipelines/dags/rds-app/Dockerfile -t devops-data-platform-rds:v1.0.0 .
+          docker build -f data-pipelines/dags/spark-app/Dockerfile -t devops-data-platform-spark:v1.0.0 .
+
+      - name: Push Docker images to Docker Hub
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker push devops-data-platform-kafka:v1.0.0
+          docker push devops-data-platform-rds:v1.0.0
+          docker push devops-data-platform-spark:v1.0.0
