@@ -4,7 +4,7 @@ FROM python:3.9-slim
 WORKDIR /app
 
 # העתקת קובץ requirements לקונטיינר
-COPY requirements_kafka_to_rds.txt .
+COPY requirements.txt .
 
 # התקנת התלויות
 RUN pip install --no-cache-dir -r requirements_kafka_to_rds.txt
