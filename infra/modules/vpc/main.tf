@@ -9,12 +9,16 @@ resource "aws_vpc" "main" {
 }
 
 resource "aws_subnet" "private" {
-  count                = 2
-  vpc_id               = aws_vpc.main.id
-  cidr_block           = element(["10.10.1.0/24", "10.10.2.0/24"], count.index)
-  availability_zone    = element(["us-east-2a", "us-east-2b"], count.index)
+  count             = 2
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = element(["10.10.1.0/24", "10.10.2.0/24"], count.index)
+  availability_zone = element(["us-east-2a", "us-east-2b"], count.index)
 
   tags = {
     Name = "dev-private-${count.index}"
   }
+}
+
+output "private_subnet_ids" {
+  value = aws_subnet.private[*].id
 }
