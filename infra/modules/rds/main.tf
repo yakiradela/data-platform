@@ -1,24 +1,28 @@
-resource "aws_subnet_group" "this" {
-    name                    = "${var.env}-rds-subnets"
-    subnet_ids              = var.private_subnets
+resource "aws_db_subnet_group" "this" {
+  name       = "dev-rds-subnets"
+  private_subnets = module.vpc.private_subnets
+}
+  tags = {
+    Name = "dev-rds-subnet-group"
+  }
 }
 
 resource "aws_db_instance" "this" {
-    identifier              = "${var.env}-rds"
-    engine                  = "postgres"
-    engine_version          = "15"
-    instance_class          = "db.t3.medium"
-    allocated_storage       = 50
-    db_subnet_group_name    = aws_db_subnet_group.this.name 
-    vpc_security_group_ids  = [var.sg_id]
-    username                = "etl"
-    password                = "chance-me"
-    skip_final_snapshot     = true 
-    publicly_accessible     = false
-    deletion_protection     = false
-    backup_retention_period = 7
+  identifier              = "dev-rds"
+  engine                  = "postgres"
+  engine_version          = "15"
+  instance_class          = "db.t3.medium"
+  allocated_storage       = 50
+  db_subnet_group_name    = aws_db_subnet_group.this.name
+  vpc_security_group_ids  = ["sg-0123456789abcdef0"] # שנה לערך אמיתי
+  username                = "etl"
+  password                = "chance-me"
+  skip_final_snapshot     = true
+  publicly_accessible     = false
+  deletion_protection     = false
+  backup_retention_period = 7
 
-    tags = {
-        Name                = "${var.env}-rds"
-    }
+  tags = {
+    Name = "dev-rds"
+  }
 }
