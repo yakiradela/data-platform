@@ -5,7 +5,9 @@ on:
     branches:
       - main
     paths:
-      - 'data-pipelines/dags/**'
+      - 'data-pipelines/dags/kafka-app/**'
+      - 'data-pipeline/dags/rds-app/**' 
+      - 'data-pipeline/dags/spark-app/**'
       - '.github/workflows/**'
 
 jobs:
