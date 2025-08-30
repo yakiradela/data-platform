@@ -7,7 +7,7 @@ WORKDIR /app
 COPY requirements.txt .
 
 # התקנת התלויות
-RUN pip install --no-cache-dir -r requirements_kafka_to_rds.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # העתקת קוד האפליקציה לקונטיינר
 COPY . .
