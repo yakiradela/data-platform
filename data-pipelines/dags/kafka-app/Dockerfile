@@ -1,10 +1,7 @@
 FROM python:3.9-slim
 
-# הגדרת ספריית עבודה
-WORKDIR /app
-
 # העתקת קובץ requirements לקונטיינר (נתיב יחסי, אם הקובץ נמצא באותו נתיב כמו ה-Dockerfile)
-COPY ./requirements.txt .
+COPY requirements.txt .
 
 # התקנת התלויות
 RUN pip install --no-cache-dir -r requirements.txt
