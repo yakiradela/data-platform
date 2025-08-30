@@ -1,5 +1,6 @@
 resource "aws_s3_bucket" "data_sink" {
   bucket = "data-platform-s3-sink-bucket"
+  force_destroy = true  # מאפשר מחיקה אוטומטית של כל האובייקטים בעת הריסת המשאב
 
   tags = {
     Name        = "DataPlatformS3Sink"
