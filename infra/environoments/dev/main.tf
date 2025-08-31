@@ -47,10 +47,5 @@ module "s3" {
 
 
 module "redshift" {
-  source                     = "../../modules/redshift"
-  env                        = "dev"
-  subnet_ids                 = module.vpc.private_subnets
-  master_username            = "adminuser"
-  master_password            = "yakiradela@A"
-  redshift_database_name     = "dataplatform"
+  source = "../../modules/redshift"
 }
