@@ -1,8 +1,14 @@
 resource "aws_redshift_subnet_group" "default" {
   name        = "dev-redshift-subnet-group"
-  description = "Subnet group for Redshift cluster" 
-  private_subnets = module.vpc.private_subnets
+  description = "Subnet group for Redshift cluster"
+  subnet_ids  = module.vpc.private_subnets
+
+  tags = {
+    Environment = "dev"
+    Name        = "dev-redshift-subnet-group"
+  }
 }
+
 resource "aws_redshift_cluster" "main" {
   cluster_identifier         = "dev-redshift"
   node_type                  = "dc2.large"
