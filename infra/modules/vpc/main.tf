@@ -9,7 +9,7 @@ resource "aws_vpc" "main" {
 }
 
 resource "aws_subnet" "subnet_data" {
-  vpc_id            = aws_vpc.main.id
+  vpc_id            = "vpc-data-platform"
   cidr_block        = "10.10.1.0/24"
   availability_zone = "us-east-2a"
 
@@ -19,7 +19,7 @@ resource "aws_subnet" "subnet_data" {
 }
 
 resource "aws_subnet" "subnet_platform" {
-  vpc_id            = vpc-data-platform
+  vpc_id            = "vpc-data-platform"
   cidr_block        = "10.10.2.0/24"
   availability_zone = "us-east-2b"
 
