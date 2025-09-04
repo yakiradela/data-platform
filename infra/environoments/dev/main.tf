@@ -24,9 +24,6 @@ module "kafka" {
 
 module "s3" {
   source              = "../../modules/s3"
-  bucket_name         = "dev-data-platform-bucket"
-  force_destroy       = true
-  versioning_enabled  = true
 }
 
 module "redshift" {
