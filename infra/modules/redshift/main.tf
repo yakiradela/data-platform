@@ -13,7 +13,7 @@ resource "aws_redshift_cluster" "main" {
   cluster_identifier         = "dev-redshift"
   node_type                  = "dc2.large"
   master_username            = "adminuser"
-  master_password            = "yakiradela@A"
+  master_password            = "yakiradela1234!"
   database_name              = "dataplatform"
   cluster_type               = "single-node"
   port                       = 5439
