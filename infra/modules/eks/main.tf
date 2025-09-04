@@ -5,8 +5,11 @@ module "eks" {
   cluster_name    = "dev-eks"
   cluster_version = "1.29"
 
-  vpc_id     = "vpc-data-platform"
-  subnet_ids = ["subnet-data","subnet-platform"]
+  vpc_id     = aws_vpc.main.id
+  subnet_ids = [
+    aws_subnet.subnet_data.id,
+    aws_subnet.subnet_platform.id
+  ]
 
   eks_managed_node_group_defaults = {
     instance_types = ["m5.large"]
@@ -25,3 +28,4 @@ module "eks" {
     Terraform   = "true"
   }
 }
+
