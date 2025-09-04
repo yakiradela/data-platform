@@ -14,13 +14,13 @@ resource "aws_redshift_cluster" "main" {
   cluster_identifier         = "dev-redshift"
   node_type                  = "dc2.large"
   master_username            = "adminuser"
-  master_password            = "yakiradela@A"
+  master_password            = "Yakiradela@A"
   database_name              = "dataplatform"
   cluster_type               = "single-node"
   port                       = 5439
   publicly_accessible        = false
   skip_final_snapshot        = true
-  cluster_subnet_group_name  = ["subnet-data"]
+  cluster_subnet_group_name  = "subnet-data"
 
   tags = {
     Environment = "dev"
