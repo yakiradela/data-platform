@@ -9,9 +9,9 @@ resource "aws_vpc" "main" {
 }
 
 resource "aws_subnet" "subnet_data" {
-  vpc_id                  = aws_vpc.main.id
-  cidr_block              = "10.10.1.0/24"
-  availability_zone       = "us-east-2a"
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.10.1.0/24"
+  availability_zone = "us-east-2a"
 
   tags = {
     Name = "subnet-data"
@@ -19,9 +19,9 @@ resource "aws_subnet" "subnet_data" {
 }
 
 resource "aws_subnet" "subnet_platform" {
-  vpc_id                  = aws_vpc.main.id
-  cidr_block              = "10.10.2.0/24"
-  availability_zone       = "us-east-2b"
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.10.2.0/24"
+  availability_zone = "us-east-2b"
 
   tags = {
     Name = "subnet-platform"
