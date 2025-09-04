@@ -1,15 +1,15 @@
 resource "aws_s3_bucket" "data_sink" {
-  bucket        = "data-platform-s3-sink-bucket"
-  force_destroy = true  # מאפשר מחיקה אוטומטית של כל האובייקטים בעת הריסת המשאב
+  bucket        = "dev-data-platform-bucket"
+  force_destroy = true
 
   tags = {
-    Name        = "DataPlatformS3Sink"
+    Name        = "dev-data-platform-bucket"
     Environment = "dev"
   }
 }
 
 resource "aws_s3_bucket_versioning" "versioning" {
-  bucket = "data-platform-s3-sink-bucket"  # קשיח
+  bucket = aws_s3_bucket.data_sink.id
 
   versioning_configuration {
     status = "Enabled"
@@ -17,7 +17,7 @@ resource "aws_s3_bucket_versioning" "versioning" {
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "encryption" {
-  bucket = "data-platform-s3-sink-bucket"  # קשיח
+  bucket = aws_s3_bucket.data_sink.id
 
   rule {
     apply_server_side_encryption_by_default {
@@ -27,7 +27,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "encryption" {
 }
 
 resource "aws_s3_bucket_public_access_block" "block_public_access" {
-  bucket = "data-platform-s3-sink-bucket"  # קשיח
+  bucket = aws_s3_bucket.data_sink.id
 
   block_public_acls       = true
   block_public_policy     = true
