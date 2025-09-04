@@ -1,7 +1,7 @@
 resource "aws_redshift_subnet_group" "default" {
   name        = "dev-redshift-subnet-group"
   description = "Subnet group for Redshift cluster"
-  subnet_ids  = module.vpc.private_subnets
+  subnet_ids  = ["subnet-data","subnet-platform"]
 
   tags = {
     Environment = "dev"
