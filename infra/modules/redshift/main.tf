@@ -1,7 +1,10 @@
 resource "aws_redshift_subnet_group" "default" {
   name        = "dev-redshift-subnet-group"
   description = "Subnet group for Redshift cluster"
-  subnet_ids  = ["subnet-data","subnet-platform"]
+  subnet_ids  = [
+    "subnet-data",
+    "subnet-platform"
+  ]
 
   tags = {
     Environment = "dev"
