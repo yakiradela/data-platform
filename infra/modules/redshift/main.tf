@@ -19,7 +19,7 @@ resource "aws_redshift_cluster" "main" {
   port                       = 5439
   publicly_accessible        = false
   skip_final_snapshot        = true
-  cluster_subnet_group_name  = aws_redshift_subnet_group.default.name
+  cluster_subnet_group_name  = "subnet-data"
 
   tags = {
     Environment = "dev"
