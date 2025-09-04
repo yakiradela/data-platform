@@ -1,37 +1,15 @@
-resource "aws_vpc" "main" {
-  cidr_block           = "10.10.0.0/16"
-  enable_dns_support   = true
-  enable_dns_hostnames = true
-
-  tags = {
-    Name = "vpc-data-platform"
-  }
+variable "vpc_id" {
+  type = string
 }
 
-resource "aws_subnet" "subnet_data" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = "10.10.1.0/24"
-  availability_zone = "us-east-2a"
-
-  tags = {
-    Name = "subnet-data"
-  }
-}
-
-resource "aws_subnet" "subnet_platform" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = "10.10.2.0/24"
-  availability_zone = "us-east-2b"
-
-  tags = {
-    Name = "subnet-platform"
-  }
+variable "subnet_ids" {
+  type = list(string)
 }
 
 resource "aws_security_group" "kafka_sg" {
   name        = "kafka-sg"
   description = "Kafka SG"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = var.vpc_id
 }
 
 resource "aws_msk_cluster" "this" {
@@ -41,10 +19,7 @@ resource "aws_msk_cluster" "this" {
 
   broker_node_group_info {
     instance_type  = "kafka.m5.large"
-    client_subnets = [
-      aws_subnet.subnet_data.id,
-      aws_subnet.subnet_platform.id
-    ]
+    client_subnets = var.subnet_ids
     security_groups = [aws_security_group.kafka_sg.id]
   }
 
