@@ -2,7 +2,7 @@
 resource "aws_redshift_subnet_group" "default" {
   name        = "dev-redshift-subnet-group"
   description = "Subnet group for Redshift cluster"
-  subnet_ids  = module.vpc.private_subnets
+  subnet_ids  = ["subnet-data","subnet-platform"]
 
   tags = {
     Environment = "dev"
@@ -20,7 +20,7 @@ resource "aws_redshift_cluster" "main" {
   port                       = 5439
   publicly_accessible        = false
   skip_final_snapshot        = true
-  cluster_subnet_group_name  = aws_redshift_subnet_group.default.name
+  cluster_subnet_group_name  = ["subnet-data"]
 
   tags = {
     Environment = "dev"
