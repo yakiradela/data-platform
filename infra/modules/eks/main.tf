@@ -1,3 +1,11 @@
+variable "vpc_id" {
+  type = string
+}
+
+variable "subnet_ids" {
+  type = list(string)
+}
+
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 20.0"
@@ -5,11 +13,8 @@ module "eks" {
   cluster_name    = "dev-eks"
   cluster_version = "1.29"
 
-  vpc_id     = aws_vpc.main.id
-  subnet_ids = [
-    aws_subnet.subnet_data.id,
-    aws_subnet.subnet_platform.id
-  ]
+  vpc_id     = var.vpc_id
+  subnet_ids = var.subnet_ids
 
   eks_managed_node_group_defaults = {
     instance_types = ["m5.large"]
