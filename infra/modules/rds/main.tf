@@ -1,62 +1,59 @@
-resource "aws_vpc" "main" {
-  cidr_block           = "10.10.0.0/16"
-  enable_dns_support   = true
-  enable_dns_hostnames = true
+variable "vpc_id" {
+  type = string
+}
+
+variable "subnet_ids" {
+  type = list(string)
+}
+
+resource "aws_security_group" "rds_sg" {
+  name        = "rds-sg"
+  description = "RDS security group"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    cidr_blocks = ["10.10.0.0/16"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
   tags = {
-    Name = "vpc-data-platform"
+    Name = "rds-sg"
   }
 }
 
-resource "aws_subnet" "subnet_data" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = "10.10.1.0/24"
-  availability_zone = "us-east-2a"
+resource "aws_db_subnet_group" "rds_subnet_group" {
+  name       = "dev-rds-subnet-group"
+  subnet_ids = var.subnet_ids
 
   tags = {
-    Name = "subnet-data"
+    Name = "dev-rds-subnet-group"
   }
 }
 
-resource "aws_subnet" "subnet_platform" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = "10.10.2.0/24"
-  availability_zone = "us-east-2b"
+resource "aws_db_instance" "default" {
+  allocated_storage    = 20
+  engine               = "postgres"
+  engine_version       = "15.2"
+  instance_class       = "db.t3.medium"
+  name                 = "mydb"
+  username             = "adminuser"
+  password             = "StrongPass123!"
+  parameter_group_name = "default.postgres15"
+  skip_final_snapshot  = true
 
-  tags = {
-    Name = "subnet-platform"
-  }
-}
-
-resource "aws_redshift_subnet_group" "default" {
-  name        = "dev-redshift-subnet-group"
-  description = "Subnet group for Redshift cluster"
-  subnet_ids  = [
-    aws_subnet.subnet_data.id,
-    aws_subnet.subnet_platform.id
-  ]
+  vpc_security_group_ids = [aws_security_group.rds_sg.id]
+  db_subnet_group_name   = aws_db_subnet_group.rds_subnet_group.name
 
   tags = {
     Environment = "dev"
-    Name        = "dev-redshift-subnet-group"
   }
 }
-
-resource "aws_redshift_cluster" "main" {
-  cluster_identifier         = "dev-redshift"
-  node_type                  = "ra3.xlplus"
-  master_username            = "adminuser"
-  master_password            = "StrongPass123!"
-  database_name              = "dataplatform"
-  cluster_type               = "single-node"
-  port                       = 5439
-  publicly_accessible        = false
-  skip_final_snapshot        = true
-  cluster_subnet_group_name  = aws_redshift_subnet_group.default.name
-
-  tags = {
-    Environment = "dev"
-    Name        = "dev-redshift"
-  }
-}
-
