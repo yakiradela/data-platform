@@ -11,7 +11,7 @@ module "vpc" {
 }
 
 module "eks" {
-  source = "../../modules/eks"
+  source  = "../../modules/eks"
 }
 
 module "rds" {
@@ -23,7 +23,7 @@ module "kafka" {
 }
 
 module "s3" {
-  source              = "../../modules/s3"
+  source = "../../modules/s3"
 }
 
 module "redshift" {
