@@ -44,7 +44,7 @@ resource "aws_db_instance" "default" {
   engine               = "postgres"
   engine_version       = "15.2"
   instance_class       = "db.t3.medium"
-  name                 = "mydb"
+  db_name              = "mydb"
   username             = "adminuser"
   password             = "StrongPass123!"
   parameter_group_name = "default.postgres15"
