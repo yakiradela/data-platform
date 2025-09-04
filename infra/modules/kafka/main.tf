@@ -5,7 +5,7 @@ resource "aws_msk_cluster" "this" {
 
     broker_node_group_info {
       instance_type         = "kafka.m5.large"
-      client_subnets        = "subnet-data"
-      security_groups       = "sg-data-platform"
+      client_subnets        = ["subnet-data"]
+      security_groups       = ["sg-data-platform"]
     }
 }
