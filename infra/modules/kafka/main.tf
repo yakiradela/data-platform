@@ -48,10 +48,6 @@ resource "aws_msk_cluster" "this" {
     }
   }
 
-  monitoring {
-    enhanced_monitoring = "PER_BROKER"
-  }
-
   tags = {
     Name        = "dev-msk"
     Environment = "dev"
