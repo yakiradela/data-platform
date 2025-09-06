@@ -15,7 +15,7 @@ resource "aws_redshift_subnet_group" "default" {
 
 resource "aws_redshift_cluster" "main" {
   cluster_identifier         = "dev-redshift"
-  node_type                  = "dc2.large"
+  node_type                  = "ra3.xlplus"
   master_username            = "adminuser"
   master_password            = "Yakiradela1234!"
   database_name              = "dataplatform"
