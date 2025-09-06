@@ -14,7 +14,7 @@ resource "aws_security_group" "kafka_sg" {
 
 resource "aws_msk_cluster" "this" {
   cluster_name           = "dev-msk"
-  kafka_version          = "3.7.1"
+  kafka_version          = "3.7.0"
   number_of_broker_nodes = 2
 
   broker_node_group_info {
