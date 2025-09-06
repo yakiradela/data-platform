@@ -47,7 +47,6 @@ resource "aws_db_instance" "default" {
   db_name              = "mydb"
   username             = "adminuser"
   password             = "StrongPass123!"
-  parameter_group_name = "default.postgres15"
   skip_final_snapshot  = true
 
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
