@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "data_sink" {
-  bucket        = "dev-data-platform-bucket"
+  bucket        = "dev-data-platform-bucket123xyz"
   force_destroy = true
 
   tags = {
