@@ -3,7 +3,7 @@ variable "subnet_ids" {
 }
 
 resource "aws_redshift_subnet_group" "default" {
-  name        = "dev-redshift-subnet-group"
+  name        = "Dev-redshift-subnet-group"
   description = "Subnet group for Redshift cluster"
   subnet_ids  = var.subnet_ids
 
